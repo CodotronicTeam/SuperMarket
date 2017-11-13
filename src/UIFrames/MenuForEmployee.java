@@ -38,6 +38,11 @@ public class MenuForEmployee extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         sell_BillButton.setText("Sell Bill");
+        sell_BillButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sell_BillButtonActionPerformed(evt);
+            }
+        });
         getContentPane().add(sell_BillButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(43, 51, -1, -1));
 
         logOutButton.setText("Log out");
@@ -57,6 +62,12 @@ public class MenuForEmployee extends javax.swing.JFrame {
         this.dispose();
         l.setVisible(true);
     }//GEN-LAST:event_logOutButtonActionPerformed
+
+    private void sell_BillButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sell_BillButtonActionPerformed
+        Sell_Bill l = new Sell_Bill();
+        this.dispose();
+        l.setVisible(true);
+    }//GEN-LAST:event_sell_BillButtonActionPerformed
 
     /**
      * @param args the command line arguments
