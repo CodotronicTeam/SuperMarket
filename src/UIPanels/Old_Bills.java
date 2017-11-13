@@ -334,6 +334,7 @@ public class Old_Bills extends javax.swing.JPanel {
             }
            
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
             JOptionPane.showMessageDialog(this, "You reached the first sales", "Info", 1);
             PreviousBtn.setEnabled(false);
         }

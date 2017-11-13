@@ -38,7 +38,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="pswTxt" max="32767" attributes="0"/>
+                          <Component id="passwordField" max="32767" attributes="0"/>
                           <Component id="nameTxt" pref="149" max="32767" attributes="0"/>
                           <Component id="userTxt" max="32767" attributes="0"/>
                       </Group>
@@ -49,10 +49,10 @@
                           <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="33" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jobTxt" alignment="1" min="-2" pref="149" max="-2" attributes="0"/>
-                          <Component id="phoneTxt" alignment="1" min="-2" pref="149" max="-2" attributes="0"/>
+                          <Component id="phoneTxt" min="-2" pref="149" max="-2" attributes="0"/>
+                          <Component id="jobComboBox" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -113,13 +113,13 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="pswTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="passwordField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jobTxt" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jobComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -181,14 +181,6 @@
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="nameTxt">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jobTxt">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
@@ -305,7 +297,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newBtnActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="pswTxt">
+    <Component class="javax.swing.JPasswordField" name="passwordField">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
@@ -317,6 +309,19 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Password"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="jobComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="2">
+            <StringItem index="0" value="admin"/>
+            <StringItem index="1" value="emp"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

@@ -51,21 +51,22 @@ public class Users extends javax.swing.JFrame {
         
         initComponents();
         
-        load_searchTable("");
+//        load_searchTable("");
         
         searchTxt.getDocument().addDocumentListener(new DocumentListener() {
              @Override
              public void insertUpdate(DocumentEvent e) {
-                 load_searchTable("where "+searchBy+" like '%"+searchTxt.getText()+"%'");
+                searchParameters();
              }
 
              @Override
              public void removeUpdate(DocumentEvent e) {
-                 load_searchTable("where "+searchBy+" like '%"+searchTxt.getText()+"%'");
+                 searchParameters();
              }
 
              @Override
              public void changedUpdate(DocumentEvent e) {
+                 searchParameters();
              }
          });
         
@@ -91,37 +92,80 @@ public class Users extends javax.swing.JFrame {
         return exitListener;
     }
     
-    private void load_searchTable(String searchParameter) {
+     private void showAll() {
+        clearTextFields();
         try {
-            //the data will be putted in usersTable arranged according to Id
-            pst = dbc.conn.prepareStatement("select user_name, name, jobtitle, phone from User_Information "+searchParameter+"order by Id");
-            rs = pst.executeQuery();
-            usersTable.setModel(DbUtils.resultSetToTableModel(rs));
-            
-            TableColumnModel tm=usersTable.getColumnModel();
-            
-            
-            String[] columnHeaders={"UserName", "Name", "Job Title", "Phone Number"};
-            for(int i=0;i<tm.getColumnCount();i++)
-            {
-                tm.getColumn(i).setHeaderValue(columnHeaders[i]);
+            Login.pst = Login.dbc.conn.prepareStatement("select user_name, name, password, jobtitle, phone from User_Information"
+                    + " order by Id");
+            Login.rs = Login.pst.executeQuery();
+            usersTable.setModel(DbUtils.resultSetToTableModel(Login.rs));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+     
+     private void searchParameters()
+     {
+         if (userRadioBtn.isSelected()) {
+            search(0);
+        } else if (jobRadioBtn.isSelected()) {
+            search(1);
+        } else if (nameRadioBtn.isSelected()) {
+            search(2);
+        } else if (phoneRadioBtn.isSelected()) {
+            search(3);
+        }
+     }
+     
+     private void clearTextFields() {
+        userTxt.setText("");
+        nameTxt.setText("");
+        passwordField.setText("");
+        phoneTxt.setText("");
+    }
+     
+    private void search(int i) {
+        try {
+            if (i == 0) {
+                Login.pst = Login.dbc.conn.prepareStatement("select user_name, name, password, jobtitle,"
+                        + " phone from User_Information"
+                        + " where user_name like ?"
+                        + " order by Id;");
+                Login.pst.setString(1, searchTxt.getText() + "%");
+            } else if (i == 1) {
+                Login.pst = Login.dbc.conn.prepareStatement("select user_name, name, password, jobtitle,"
+                        + " phone from User_Information"
+                        + " where jobtitle like ?"
+                        + " order by Id;");
+                Login.pst.setString(1, searchTxt.getText() + "%");
+            } else if (i == 2) {
+                Login.pst = Login.dbc.conn.prepareStatement("select user_name, name, password, jobtitle,"
+                        + " phone from User_Information"
+                        + " where name like ?"
+                        + " order by Id;");
+                Login.pst.setString(1, searchTxt.getText() + "%");
+            } else if (i == 3) {
+                Login.pst = Login.dbc.conn.prepareStatement("select user_name, name, password, jobtitle,"
+                        + " phone from User_Information"
+                        + " where phone like ?"
+                        + " order by Id;");
+                Login.pst.setString(1, searchTxt.getText() + "%");
             }
-            
-            
-            //after the data are loaded to usersTable, the last row will be selected
-            
-            int lastRowIndex = usersTable.getRowCount() - 1;
-            usersTable.setRowSelectionInterval(lastRowIndex, lastRowIndex);
-            
-            //this method to fill the textfields with the data selected from usersTable
-            getSelectedRowData();
+            Login.rs = Login.pst.executeQuery();
+            usersTable.setModel(DbUtils.resultSetToTableModel(Login.rs));
         } catch (SQLException ex) {
-
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-
+            ex.printStackTrace();
         }
     }
     
+    
+     private boolean checkEmptyFields() {
+        if ((!userTxt.getText().equals("")) && (!nameTxt.getText().equals("")) && (passwordField.getPassword().length != 0)) {
+            return false;
+        }
+        return true;
+    }
+     
     private void getSelectedRowData() {
         int row = usersTable.getSelectedRow();
 
@@ -134,8 +178,8 @@ public class Users extends javax.swing.JFrame {
                 userId=rs.getInt("Id");
                 userTxt.setText(rs.getString("user_name"));
                 nameTxt.setText(rs.getString("name"));
-                pswTxt.setText(rs.getString("password"));
-                jobTxt.setText(rs.getString("jobtitle"));
+                passwordField.setText(rs.getString("password"));
+                jobComboBox.setSelectedItem(rs.getString("jobtitle"));
                 phoneTxt.setText(rs.getString("phone"));
             }
 
@@ -160,7 +204,6 @@ public class Users extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         userTxt = new javax.swing.JTextField();
         nameTxt = new javax.swing.JTextField();
-        jobTxt = new javax.swing.JTextField();
         phoneTxt = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         usersTable = new javax.swing.JTable();
@@ -173,8 +216,9 @@ public class Users extends javax.swing.JFrame {
         phoneRadioBtn = new javax.swing.JRadioButton();
         jLabel6 = new javax.swing.JLabel();
         newBtn = new javax.swing.JButton();
-        pswTxt = new javax.swing.JPasswordField();
+        passwordField = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
+        jobComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -189,8 +233,6 @@ public class Users extends javax.swing.JFrame {
         userTxt.setEditable(false);
 
         nameTxt.setEditable(false);
-
-        jobTxt.setEditable(false);
 
         phoneTxt.setEditable(false);
 
@@ -275,9 +317,11 @@ public class Users extends javax.swing.JFrame {
             }
         });
 
-        pswTxt.setEditable(false);
+        passwordField.setEditable(false);
 
         jLabel3.setText("Password");
+
+        jobComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "admin", "emp" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -293,7 +337,7 @@ public class Users extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(pswTxt)
+                            .addComponent(passwordField)
                             .addComponent(nameTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
                             .addComponent(userTxt)))
                     .addGroup(layout.createSequentialGroup()
@@ -301,10 +345,10 @@ public class Users extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jobTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(phoneTxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(phoneTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jobComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -350,12 +394,12 @@ public class Users extends javax.swing.JFrame {
                             .addComponent(nameTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(pswTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jobTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jobComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
@@ -385,76 +429,106 @@ public class Users extends javax.swing.JFrame {
 
     private void userRadioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userRadioBtnActionPerformed
         // TODO add your handling code here:
-        searchBy = "user_name";
-        load_searchTable("where "+searchBy+" like '%"+searchTxt.getText()+"%'");
+        if (!searchTxt.getText().equals("")) {
+            userRadioBtn.setSelected(true);
+            search(0);
+        }
     }//GEN-LAST:event_userRadioBtnActionPerformed
 
     private void nameRadioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameRadioBtnActionPerformed
         // TODO add your handling code here:
-        searchBy = "name";
-        load_searchTable("where "+searchBy+" like '%"+searchTxt.getText()+"%'");
+        if (!searchTxt.getText().equals("")) {
+            nameRadioBtn.setSelected(true);
+            search(2);
+        }
     }//GEN-LAST:event_nameRadioBtnActionPerformed
 
     private void jobRadioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jobRadioBtnActionPerformed
         // TODO add your handling code here:
-        searchBy = "jobtitle";
-        load_searchTable("where "+searchBy+" like '%"+searchTxt.getText()+"%'");
+        if (!searchTxt.getText().equals("")) {
+            jobRadioBtn.setSelected(true);
+            search(1);
+        }
     }//GEN-LAST:event_jobRadioBtnActionPerformed
 
     private void phoneRadioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneRadioBtnActionPerformed
         // TODO add your handling code here:
-        searchBy = "phone";
-        load_searchTable("where "+searchBy+" like '%"+searchTxt.getText()+"%'");
+        if (!searchTxt.getText().equals("")) {
+            phoneRadioBtn.setSelected(true);
+            search(3);
+        }
     }//GEN-LAST:event_phoneRadioBtnActionPerformed
 
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        new Register().setVisible(true);
+        if (!checkEmptyFields()) {
+            try {
+                Login.pst = Login.dbc.conn.prepareStatement("insert into User_Information(user_name, name, password,"
+                        + " jobtitle, phone)"
+                        + " values(?,?,?,?,?)");
+                Login.pst.setString(1, userTxt.getText());
+                Login.pst.setString(2, nameTxt.getText());
+                Login.pst.setString(3, String.valueOf(passwordField.getPassword()));
+                String job = (jobComboBox.getSelectedIndex() == 0) ? "admin" : "emp";
+                Login.pst.setString(4, job);
+                Login.pst.setString(5, phoneTxt.getText());
+
+                Login.pst.execute();
+
+                showAll();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "This user is already in system\nPlease change it");
+                userTxt.requestFocus();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "One or more fields are empty");
+        }
     }//GEN-LAST:event_newBtnActionPerformed
 
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
         // TODO add your handling code here:
-        this.setVisible(false);
-        new editUser().setVisible(true);
-        editUser.userId=userId;
-        editUser.ReNameTF.setText(nameTxt.getText());
-        editUser.ReUserNameTF.setText(userTxt.getText());
-        editUser.RePassTF.setText(new String(pswTxt.getPassword()));
-        editUser.ReConfPassTF.setText(new String(pswTxt.getPassword()));
-        editUser.RePhoneTF.setText(phoneTxt.getText());
-        
-        
-        
+        if (!checkEmptyFields() && usersTable.getSelectedRow() != -1) {
+            try {
+                Login.pst = Login.dbc.conn.prepareStatement("update User_Information set user_name=?, name=?, password=?,"
+                        + "jobtitle=?, phone=? where user_name=?");
+
+                Login.pst.setString(1, userTxt.getText());
+                Login.pst.setString(2, nameTxt.getText());
+                Login.pst.setString(3, String.valueOf(passwordField.getPassword()));
+                String job = (jobComboBox.getSelectedIndex() == 0) ? "admin" : "emp";
+                Login.pst.setString(4, job);
+                Login.pst.setString(5, phoneTxt.getText());
+                Login.pst.setString(6, usersTable.getValueAt(usersTable.getSelectedRow(), 0).toString());
+
+                Login.pst.executeUpdate();
+
+                showAll();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "This user is already in system\nPlease change it");
+                userTxt.requestFocus();
+            }
+        } else if (usersTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Please select row from the table first");
+        } else {
+            JOptionPane.showMessageDialog(null, "One or more fields are empty");
+        }
     }//GEN-LAST:event_editBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
-        //to delete an item from table
-        int select = JOptionPane.showOptionDialog(null,
-                "Do you want to delete this user?", null,
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.INFORMATION_MESSAGE,
-                null, new String[]{"Delete", "Cancel"}, "default");
-        if (usersTable.getSelectedRow() != -1 && select == 0) {
+         if (usersTable.getSelectedRow() != -1) {
             try {
-                pst = dbc.conn.prepareStatement("delete from User_Information where user_name=?");
-                pst.setString(1, userTxt.getText());
-                pst.executeUpdate();
-                DefaultTableModel tm = (DefaultTableModel) usersTable.getModel();
-                int selectedRow = usersTable.getSelectedRow();
-                tm.removeRow(selectedRow);
-                if (selectedRow < usersTable.getRowCount()) {
-                    usersTable.setRowSelectionInterval(selectedRow, selectedRow);
-                } else {
-                    usersTable.setRowSelectionInterval(selectedRow - 1, selectedRow - 1);
-                }
+                Login.pst = Login.dbc.conn.prepareStatement("delete from User_Information where user_name=?");
 
-                getSelectedRowData();
+                Login.pst.setString(1, usersTable.getValueAt(usersTable.getSelectedRow(), 0).toString());
+                Login.pst.execute();
 
+                showAll();
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+                ex.printStackTrace();
             }
+        } else if (usersTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Please select row from the table first");
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
@@ -503,14 +577,14 @@ public class Users extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> jobComboBox;
     private javax.swing.JRadioButton jobRadioBtn;
-    public static javax.swing.JTextField jobTxt;
     private javax.swing.JRadioButton nameRadioBtn;
     public static javax.swing.JTextField nameTxt;
     private javax.swing.JButton newBtn;
+    public static javax.swing.JPasswordField passwordField;
     private javax.swing.JRadioButton phoneRadioBtn;
     public static javax.swing.JTextField phoneTxt;
-    public static javax.swing.JPasswordField pswTxt;
     private javax.swing.ButtonGroup searchGp;
     private javax.swing.JTextField searchTxt;
     private javax.swing.JRadioButton userRadioBtn;

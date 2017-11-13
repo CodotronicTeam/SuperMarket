@@ -132,9 +132,10 @@ public class Store extends javax.swing.JFrame {
     
     private void getDataFromSelectedRow()
     {
+        try{
         if(storeTable.getSelectedRow()!=-1)
         {
-            clearTextFields();
+//            clearTextFields();
             gpNumberTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 0).toString());
             gpNameTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 1).toString());
             pdtNameTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 2).toString());
@@ -144,7 +145,11 @@ public class Store extends javax.swing.JFrame {
             avgPriceTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 6).toString());
             sellPriceTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 7).toString());
             quantityTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 8).toString());
-        }  
+        } 
+        }catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
 
      private boolean checkEmptyFields() {
@@ -168,6 +173,7 @@ public class Store extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        searchGp = new javax.swing.ButtonGroup();
         jLabel4 = new javax.swing.JLabel();
         gpNameRadio = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
@@ -203,6 +209,7 @@ public class Store extends javax.swing.JFrame {
 
         jLabel4.setText("Product name");
 
+        searchGp.add(gpNameRadio);
         gpNameRadio.setText("Group name");
         gpNameRadio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,6 +219,7 @@ public class Store extends javax.swing.JFrame {
 
         jLabel5.setText("Unit of measurment");
 
+        searchGp.add(pdtRadio);
         pdtRadio.setText("Product name");
         pdtRadio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,6 +229,7 @@ public class Store extends javax.swing.JFrame {
 
         jLabel6.setText("Price");
 
+        searchGp.add(barcodeRadio);
         barcodeRadio.setText("Barcode");
         barcodeRadio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -300,6 +309,7 @@ public class Store extends javax.swing.JFrame {
 
     jLabel2.setText("Group name");
 
+    searchGp.add(gpNumberRadio);
     gpNumberRadio.setSelected(true);
     gpNumberRadio.setText("Group number");
     gpNumberRadio.addActionListener(new java.awt.event.ActionListener() {
@@ -678,6 +688,7 @@ public class Store extends javax.swing.JFrame {
     private javax.swing.JTextField quantityTxt;
     private javax.swing.JButton refreshBtn;
     private javax.swing.JButton saveBtn;
+    private javax.swing.ButtonGroup searchGp;
     private javax.swing.JTextField searchTxt;
     private javax.swing.JTextField sellPriceTxt;
     private javax.swing.JTable storeTable;

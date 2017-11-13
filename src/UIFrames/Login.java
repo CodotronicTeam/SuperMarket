@@ -65,8 +65,9 @@ public class Login extends javax.swing.JFrame {
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "This username and password\ndoesn't exist");
+                dbc.CloseConnection();
             }
-            dbc.CloseConnection();
+//            dbc.CloseConnection();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

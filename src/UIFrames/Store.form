@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.6" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <NonVisualComponents>
+    <Component class="javax.swing.ButtonGroup" name="searchGp">
+    </Component>
+  </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="0"/>
   </Properties>
@@ -207,6 +211,9 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="gpNameRadio">
       <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="searchGp"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Group name"/>
       </Properties>
       <Events>
@@ -220,6 +227,9 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="pdtRadio">
       <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="searchGp"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Product name"/>
       </Properties>
       <Events>
@@ -233,6 +243,9 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="barcodeRadio">
       <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="searchGp"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Barcode"/>
       </Properties>
       <Events>
@@ -350,6 +363,9 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="gpNumberRadio">
       <Properties>
+        <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+          <ComponentRef name="searchGp"/>
+        </Property>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Group number"/>
       </Properties>
