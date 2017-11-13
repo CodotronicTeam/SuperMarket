@@ -3,14 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package UIFrames;
 
 import UIPanels.Old_Bills;
 import UIPanels.Sell_Bill_Panel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-
 
 /**
  *
@@ -23,26 +24,43 @@ public class Sell_Bill extends javax.swing.JFrame {
      */
     public Sell_Bill() {
         initComponents();
-        
+        WindowListener exitListener = null;
+        addWindowListener(prepareWindow(exitListener));
         if (!Login.dbc.check) {
             Login.dbc.ConnectDB();
         }
-
+        
         try {
             Login.pst = Login.dbc.conn.prepareStatement("select Bill_Num from Sales where Bill_Num=(select max(Bill_Num) from Sales)");
             Login.rs = Login.pst.executeQuery();
-            if(Login.rs.next())
-            {
-                BillNum=Login.rs.getInt("Bill_Num")+1;
+            if (Login.rs.next()) {
+                BillNum = Login.rs.getInt("Bill_Num") + 1;
+            } else {
+                BillNum = 1;
             }
-            else
-            {
-                BillNum=1;
-            }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        billTab.add("New Bill",new Sell_Bill_Panel());
+        billTab.add("New Bill", new Sell_Bill_Panel());
+    }
+    
+    private WindowListener prepareWindow(WindowListener exitListener) {
+        exitListener = new WindowAdapter() {
+            
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (Login.jobTitle.equals("admin")) {
+                    MenuForAdmin m = new MenuForAdmin();
+                    Sell_Bill.this.dispose();
+                    m.setVisible(true);
+                }else if (Login.jobTitle.equals("emp")) {
+                    MenuForEmployee m = new MenuForEmployee();
+                    Sell_Bill.this.dispose();
+                    m.setVisible(true);
+                }
+            }
+        };
+        return exitListener;
     }
 
     /**
@@ -90,7 +108,7 @@ public class Sell_Bill extends javax.swing.JFrame {
 
     private void OldBillBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OldBillBtnActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null,new Old_Bills());
+        JOptionPane.showMessageDialog(null, new Old_Bills());
     }//GEN-LAST:event_OldBillBtnActionPerformed
 
     /**

@@ -58,6 +58,7 @@ public class MenuForEmployee extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutButtonActionPerformed
+        Login.jobTitle="";
         Login l = new Login();
         this.dispose();
         l.setVisible(true);
