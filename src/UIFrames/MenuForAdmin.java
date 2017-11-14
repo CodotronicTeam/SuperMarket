@@ -5,6 +5,9 @@
  */
 
 package UIFrames;
+
+import Classes.DBConnection;
+
 /**
  *
  * @author CompuWorld

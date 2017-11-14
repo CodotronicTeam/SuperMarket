@@ -31,13 +31,15 @@ public class Login extends javax.swing.JFrame {
     //This variable store the id of the user.
     public static int id = -1;
 
-    public Login() {
-        initComponents();
-    }
 
+    
+    public Login(){
+        initComponents();
+//        dbc.ConnectDB();
+    }
     public void checkLogin() {
         //After login the method will return this variable 
-        dbc.ConnectDB();
+        
 //        convert password into characters
         char[] pass = pswTxt.getPassword();
 //        convert characters into string
@@ -65,13 +67,14 @@ public class Login extends javax.swing.JFrame {
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "This username and password\ndoesn't exist");
-                dbc.CloseConnection();
+//                dbc.CloseConnection();
             }
 //            dbc.CloseConnection();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -173,6 +176,7 @@ public class Login extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        dbc.ConnectDB();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
