@@ -93,7 +93,7 @@ public class MenuForAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_sell_BillButtonActionPerformed
 
     private void manageUsersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageUsersButtonActionPerformed
-        Users u = new Users();
+        Manage_Users u = new Manage_Users();
         this.dispose();
         u.setVisible(true);
     }//GEN-LAST:event_manageUsersButtonActionPerformed
