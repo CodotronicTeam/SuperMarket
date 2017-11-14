@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package UIFrames;
 
 import Classes.DBConnection;
@@ -25,56 +24,50 @@ import net.proteanit.sql.DbUtils;
  * @author CompuFast
  */
 public class Manage_Users extends javax.swing.JFrame {
-    
-    public static DBConnection dbc = new DBConnection();
-    public static PreparedStatement pst = null;
-    public static ResultSet rs = null;
-    
-    public static Integer userId=null;
-    
-    public static ArrayList<String> dataSelected=new ArrayList<>();
-    
+
+    public static Integer userId = null;
+
+    public static ArrayList<String> dataSelected = new ArrayList<>();
+
     String searchBy = "user_name";
-    
 
     /**
      * Creates new form Users
      */
     public Manage_Users() {
-         dbc.ConnectDB();
+        if (!Login.dbc.check) {
+            Login.dbc.ConnectDB();
+        }
 
-
-         WindowListener exitListener = null;
+        WindowListener exitListener = null;
         addWindowListener(prepareWindow(exitListener));
-        
+
         initComponents();
-        
+
 //        load_searchTable("");
-        
         searchTxt.getDocument().addDocumentListener(new DocumentListener() {
-             @Override
-             public void insertUpdate(DocumentEvent e) {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
                 searchParameters();
-             }
+            }
 
-             @Override
-             public void removeUpdate(DocumentEvent e) {
-                 searchParameters();
-             }
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                searchParameters();
+            }
 
-             @Override
-             public void changedUpdate(DocumentEvent e) {
-                 searchParameters();
-             }
-         });
-        
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                searchParameters();
+            }
+        });
+
         usersTable.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
-            if(usersTable.getSelectedRow()!=-1)
-            {
+            if (usersTable.getSelectedRow() != -1) {
                 getSelectedRowData();
             }
         });
-        
+        showAll();
     }
 
     private WindowListener prepareWindow(WindowListener exitListener) {
@@ -89,8 +82,8 @@ public class Manage_Users extends javax.swing.JFrame {
         };
         return exitListener;
     }
-    
-     private void showAll() {
+
+    private void showAll() {
         clearTextFields();
         try {
             Login.pst = Login.dbc.conn.prepareStatement("select user_name, name, password, jobtitle, phone from User_Information"
@@ -101,10 +94,9 @@ public class Manage_Users extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-     
-     private void searchParameters()
-     {
-         if (userRadioBtn.isSelected()) {
+
+    private void searchParameters() {
+        if (userRadioBtn.isSelected()) {
             search(0);
         } else if (jobRadioBtn.isSelected()) {
             search(1);
@@ -113,15 +105,15 @@ public class Manage_Users extends javax.swing.JFrame {
         } else if (phoneRadioBtn.isSelected()) {
             search(3);
         }
-     }
-     
-     private void clearTextFields() {
+    }
+
+    private void clearTextFields() {
         userTxt.setText("");
         nameTxt.setText("");
         passwordField.setText("");
         phoneTxt.setText("");
     }
-     
+
     private void search(int i) {
         try {
             if (i == 0) {
@@ -155,37 +147,36 @@ public class Manage_Users extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-    
-    
-     private boolean checkEmptyFields() {
+
+    private boolean checkEmptyFields() {
         if ((!userTxt.getText().equals("")) && (!nameTxt.getText().equals("")) && (passwordField.getPassword().length != 0)) {
             return false;
         }
         return true;
     }
-     
+
     private void getSelectedRowData() {
         int row = usersTable.getSelectedRow();
 
         try {
             //we selected the item from databse according to barcode as it is unique
-            pst = dbc.conn.prepareStatement("select * from User_Information where user_name=?");
-            pst.setString(1, String.valueOf(usersTable.getValueAt(row, 0)));
-            rs = pst.executeQuery();
-            if (rs.next()) {
-                userId=rs.getInt("Id");
-                userTxt.setText(rs.getString("user_name"));
-                nameTxt.setText(rs.getString("name"));
-                passwordField.setText(rs.getString("password"));
-                jobComboBox.setSelectedItem(rs.getString("jobtitle"));
-                phoneTxt.setText(rs.getString("phone"));
+            Login.pst = Login.dbc.conn.prepareStatement("select * from User_Information where user_name=?");
+            Login.pst.setString(1, String.valueOf(usersTable.getValueAt(row, 0)));
+            Login.rs = Login.pst.executeQuery();
+            if (Login.rs.next()) {
+                userId = Login.rs.getInt("Id");
+                userTxt.setText(Login.rs.getString("user_name"));
+                nameTxt.setText(Login.rs.getString("name"));
+                passwordField.setText(Login.rs.getString("password"));
+                jobComboBox.setSelectedItem(Login.rs.getString("jobtitle"));
+                phoneTxt.setText(Login.rs.getString("phone"));
             }
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-  
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -218,7 +209,7 @@ public class Manage_Users extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jobComboBox = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jLabel1.setText("Username");
 
@@ -227,12 +218,6 @@ public class Manage_Users extends javax.swing.JFrame {
         jLabel4.setText("Job title");
 
         jLabel5.setText("Phone number");
-
-        userTxt.setEditable(false);
-
-        nameTxt.setEditable(false);
-
-        phoneTxt.setEditable(false);
 
         usersTable = new javax.swing.JTable()
         {
@@ -314,8 +299,6 @@ public class Manage_Users extends javax.swing.JFrame {
                 newBtnActionPerformed(evt);
             }
         });
-
-        passwordField.setEditable(false);
 
         jLabel3.setText("Password");
 
@@ -514,7 +497,7 @@ public class Manage_Users extends javax.swing.JFrame {
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
-         if (usersTable.getSelectedRow() != -1) {
+        if (usersTable.getSelectedRow() != -1) {
             try {
                 Login.pst = Login.dbc.conn.prepareStatement("delete from User_Information where user_name=?");
 
@@ -590,5 +573,5 @@ public class Manage_Users extends javax.swing.JFrame {
     public static javax.swing.JTextField userTxt;
     private javax.swing.JTable usersTable;
     // End of variables declaration//GEN-END:variables
-  
+
 }
