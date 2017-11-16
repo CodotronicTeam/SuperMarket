@@ -285,8 +285,8 @@ public class Old_Bills extends javax.swing.JPanel {
                 BillNumTF.setText(String.valueOf(BillNum));
                 CashNameTF.setText(Login.rs.getString("User_Name"));
                 ShiftTF.setText(Login.rs.getString("Shift"));
-                DateTF.setText(Login.rs.getDate("Date").toString());
-                TimeTF.setText(Login.rs.getDate("Time").toString());
+                DateTF.setText(Login.rs.getString("Date"));
+                TimeTF.setText(Login.rs.getString("Time"));
                 total_price+=Login.rs.getDouble("Total_Price");
                 quantity_sold+=Login.rs.getDouble("Quantity_Sold");
                 TotalTF.setText(String.valueOf(total_price));
@@ -325,8 +325,8 @@ public class Old_Bills extends javax.swing.JPanel {
                 BillNumTF.setText(String.valueOf(BillNum));
                 CashNameTF.setText(Login.rs.getString("User_Name"));
                 ShiftTF.setText(Login.rs.getString("Shift"));
-                DateTF.setText(Login.rs.getDate("Date").toString());
-                TimeTF.setText(Login.rs.getDate("Time").toString());
+                DateTF.setText(Login.rs.getString("Date"));
+                TimeTF.setText(Login.rs.getString("Time"));
                 total_price+=Login.rs.getDouble("Total_Price");
                 quantity_sold+=Login.rs.getDouble("Quantity_Sold");
                 TotalTF.setText(String.valueOf(total_price));
@@ -358,8 +358,8 @@ public class Old_Bills extends javax.swing.JPanel {
                 BillNumTF.setText(String.valueOf(BillNum));
                 CashNameTF.setText(Login.rs.getString("User_Name"));
                 ShiftTF.setText(Login.rs.getString("Shift"));
-//                DateTF.setText(Login.rs.getDate("Date").toString());
-//                TimeTF.setText(Login.rs.getDate("Time").toString());
+                DateTF.setText(Login.rs.getString("Date"));
+                TimeTF.setText(Login.rs.getString("Time"));
                 total_price+=Login.rs.getDouble("Total_Price");
                 quantity_sold+=Login.rs.getDouble("Quantity_Sold");
                 TotalTF.setText(String.valueOf(total_price));
@@ -394,8 +394,8 @@ System.out.println(e.getMessage());
                 BillNumTF.setText(String.valueOf(BillNum));
                 CashNameTF.setText(Login.rs.getString("User_Name"));
                 ShiftTF.setText(Login.rs.getString("Shift"));
-                DateTF.setText(Login.rs.getDate("Date").toString());
-                TimeTF.setText(Login.rs.getDate("Time").toString());
+                DateTF.setText(Login.rs.getString("Date"));
+                TimeTF.setText(Login.rs.getString("Time"));
                 total_price+=Login.rs.getDouble("Total_Price");
                 quantity_sold+=Login.rs.getDouble("Quantity_Sold");
                

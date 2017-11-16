@@ -13,6 +13,8 @@ import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -24,6 +26,8 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -35,6 +39,8 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
     /**
      * Creates new form NewJPanel
      */
+    public LinkedHashMap<String, Double> pdtMap = new LinkedHashMap<>();
+    
     public Sell_Bill_Panel() {
         initComponents();
         Table.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -68,6 +74,20 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
             public void focusLost(FocusEvent e) {
               
             }
+        });
+        
+        
+        //when change the quantity in the table, all calculations will be updated
+        Table.addPropertyChangeListener((PropertyChangeEvent evt) -> {
+            try{
+            Table.setValueAt((double)Table.getValueAt(Table.getSelectedRow(), 5)*(double)Table.getValueAt(Table.getSelectedRow(), 6)
+                    , Table.getSelectedRow(), 7);
+            pdtMap.put((String)Table.getValueAt(Table.getSelectedRow(), 3),(double)Table.getValueAt(Table.getSelectedRow(), 5));
+            calculateTotal();
+            }catch(Exception e)
+                {
+                    
+                }
         });
     }
 
@@ -114,9 +134,16 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, true, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(Table);
@@ -294,11 +321,6 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public LinkedHashMap<String, Double> pdtMap = new LinkedHashMap<>();
-    
-    double total_ammount=0;
-    double total_price=0;
-    
     private void clearData()
     {
         DefaultTableModel tm=(DefaultTableModel)Table.getModel();
@@ -326,8 +348,23 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         TimeTF.setText(sdf.format(cal.getTime()));
+        
+        CashNameTF.setText(Login.name);
     }
-    
+   
+    //calculate the total price and total pieces
+    private void calculateTotal()
+    {
+        int totalPieces=0;
+        double totalPrice=0;
+        for(int i=0;i<Table.getRowCount();i++)
+            {
+                totalPieces+=(double)Table.getValueAt(i, 5);
+                totalPrice+=(double)Table.getValueAt(i, 7);
+            }
+        TotalTF.setText(String.valueOf(totalPieces));
+        PNumTF.setText(String.valueOf(totalPrice));
+    }
     
     private void PrintBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PrintBtnActionPerformed
         try {
@@ -375,8 +412,6 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
         Model.setRowCount(0);
         PrintBtn.setEnabled(false);
         pdtMap.clear();
-        total_ammount=0;
-        total_price=0;
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(this, "The products are not sold\nDatabase is not working\nplease contact Codotronic team", "Error", 0);
         }
@@ -397,13 +432,14 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
                  if (!pdtMap.containsKey(AddCodeTF.getText())) {
                     pdtMap.put(AddCodeTF.getText(), 1.0);
                     tm.addRow(new Object[]{Login.rs.getInt("groupNumber"), Login.rs.getString("groupName"), Login.rs.getString("productName"), AddCodeTF.getText(), Login.rs.getString("unitOfMeasurment"), pdtMap.get(AddCodeTF.getText()), Login.rs.getDouble("sellingPrice"), Login.rs.getDouble("sellingPrice")});
-                    total_price+=Login.rs.getDouble("sellingPrice");
+                    Table.setRowSelectionInterval(Table.getRowCount()-1, Table.getRowCount()-1);
+                    calculateTotal();
                 } else {
                     pdtMap.put(AddCodeTF.getText(), pdtMap.get(AddCodeTF.getText()) + 1);
                      int row_of_pdt=Arrays.asList(pdtMap.keySet().toArray()).indexOf(AddCodeTF.getText());
                     tm.setValueAt(pdtMap.get(AddCodeTF.getText()), row_of_pdt, 5);
                     tm.setValueAt(pdtMap.get(AddCodeTF.getText())*(double)tm.getValueAt(row_of_pdt, 6), row_of_pdt, 7);
-                    total_price+=(double)tm.getValueAt(row_of_pdt, 6);
+                    calculateTotal();
                  }
                  
                  //warning messages in case of running out of products
@@ -418,11 +454,9 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
                 }
                  
             }
-            total_ammount+=1;
+
             AddCodeTF.setText("");
             AddCodeBtn.setEnabled(false);
-            PNumTF.setText(String.valueOf(total_ammount));
-            TotalTF.setText(String.valueOf(total_price));
 
             PrintBtn.setEnabled(true);
             NewOrderBtn.setEnabled(true);

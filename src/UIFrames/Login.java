@@ -30,6 +30,8 @@ public class Login extends javax.swing.JFrame {
     public static String jobTitle = "";
     //This variable store the id of the user.
     public static int id = -1;
+    //This will get the name of user
+    public static String name;
 
 
     
@@ -46,7 +48,7 @@ public class Login extends javax.swing.JFrame {
         String pwd = String.valueOf(pass);
         try {
 
-            pst = dbc.conn.prepareStatement("select Id,jobtitle from User_Information where user_name=? and password=?");
+            pst = dbc.conn.prepareStatement("select id,name,jobtitle from User_Information where user_name=? and password=?");
             pst.setString(1, userTxt.getText());
             pst.setString(2, pwd);
 
@@ -55,6 +57,7 @@ public class Login extends javax.swing.JFrame {
 //              return job title and id that will be used for users menus
                 id = rs.getInt("Id");
                 jobTitle = rs.getString("jobtitle");
+                name=rs.getString("name");
 
                 if (jobTitle.equals("admin")) {
                     MenuForAdmin m = new MenuForAdmin();
@@ -67,9 +70,7 @@ public class Login extends javax.swing.JFrame {
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "This username and password\ndoesn't exist");
-//                dbc.CloseConnection();
             }
-//            dbc.CloseConnection();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
