@@ -3,8 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 package UIFrames;
 
 import Classes.DBConnection;
@@ -33,15 +31,16 @@ public class Login extends javax.swing.JFrame {
     //This will get the name of user
     public static String name;
 
-
-    
-    public Login(){
+    public Login() {
+        if (!this.dbc.check) {
+            this.dbc.ConnectDB();
+        }
         initComponents();
-//        dbc.ConnectDB();
     }
+
     public void checkLogin() {
         //After login the method will return this variable 
-        
+
 //        convert password into characters
         char[] pass = pswTxt.getPassword();
 //        convert characters into string
@@ -57,7 +56,7 @@ public class Login extends javax.swing.JFrame {
 //              return job title and id that will be used for users menus
                 id = rs.getInt("Id");
                 jobTitle = rs.getString("jobtitle");
-                name=rs.getString("name");
+                name = rs.getString("name");
 
                 if (jobTitle.equals("admin")) {
                     MenuForAdmin m = new MenuForAdmin();
@@ -75,7 +74,6 @@ public class Login extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -177,7 +175,6 @@ public class Login extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        dbc.ConnectDB();
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -216,5 +213,5 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPasswordField pswTxt;
     private javax.swing.JTextField userTxt;
     // End of variables declaration//GEN-END:variables
-  
+
 }
