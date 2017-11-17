@@ -37,6 +37,7 @@ public class DBConnection {
     public void CloseConnection() {
         try {
             conn.close();
+            check = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
