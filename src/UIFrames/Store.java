@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package UIFrames;
 
 import static java.awt.Component.CENTER_ALIGNMENT;
@@ -24,39 +23,29 @@ import net.proteanit.sql.DbUtils;
  */
 public class Store extends javax.swing.JFrame {
 
-    
     //this variable will be changed according to the radio button selected for search
     String searchBy = "groupNumber";
-    
+
     /**
      * Creates new form NewJFrame
      */
     public Store() {
-        initComponents();
-        
-        WindowListener exitListener = null;
-        addWindowListener(prepareWindow(exitListener));
-        
-         if (!Login.dbc.check) {
+        if (!Login.dbc.check) {
             Login.dbc.ConnectDB();
         }
-        
+        initComponents();
+
+        WindowListener exitListener = null;
+        addWindowListener(prepareWindow(exitListener));
+
         storeTable.getTableHeader().setFont(new Font("Tahoma", Font.BOLD, 13));
         storeTable.getTableHeader().setAlignmentY(CENTER_ALIGNMENT);
         storeTable.setAutoCreateColumnsFromModel(false);
-        
-        showAll();
-        
-        
-        
-        storeTable.getSelectionModel().setSelectionInterval(storeTable.getRowCount()-1, 
-                    storeTable.getRowCount()-1);
-            getDataFromSelectedRow();
-        
-            //I used DocumentListener instead of KeyListener according to these two pages
+
+        //I used DocumentListener instead of KeyListener according to these two pages
         //https://stackoverflow.com/questions/29830788/documentlistener-or-keylistener
         //https://stackoverflow.com/questions/13597760/keylistener-why-is-the-keypressed-method-is-delayed-by-one-type
-            searchTxt.getDocument().addDocumentListener(new DocumentListener() {
+        searchTxt.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
                 searchMethod();
@@ -72,10 +61,10 @@ public class Store extends javax.swing.JFrame {
                 searchMethod();
             }
         });
-                
+
+        showAll();
     }
-    
-    
+
     private WindowListener prepareWindow(WindowListener exitListener) {
         exitListener = new WindowAdapter() {
 
@@ -88,32 +77,29 @@ public class Store extends javax.swing.JFrame {
         };
         return exitListener;
     }
-    
-    private void searchMethod()
-    {
+
+    private void searchMethod() {
         try {
-            
-            Login.pst=Login.dbc.conn.prepareStatement("select groupNumber, groupName, productName, barcode, unitOfMeasurment, "
-            + "price, averagePrice, sellingPrice, quantity from Store where "+searchBy+" like'%"+searchTxt.getText()+"%' order by groupNumber");        
-            
-            Login.rs=Login.pst.executeQuery();
+            Login.pst = Login.dbc.conn.prepareStatement("select groupNumber, groupName, productName, barcode, unitOfMeasurment, "
+                    + "price, averagePrice, sellingPrice, quantity "
+                    + "from Store where " + searchBy + " like'%" + searchTxt.getText() + "%' order by groupNumber");
+            Login.rs = Login.pst.executeQuery();
             storeTable.setModel(DbUtils.resultSetToTableModel(Login.rs));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
-    private void showAll()
-    {
-        clearTextFields();
+
+    private void showAll() {
+        //clearTextFields();
         try {
-            Login.pst=Login.dbc.conn.prepareStatement("select groupNumber, groupName, productName, barcode, unitOfMeasurment, "
+            Login.pst = Login.dbc.conn.prepareStatement("select groupNumber, groupName, productName, barcode, unitOfMeasurment, "
                     + "price, averagePrice, sellingPrice, quantity from Store order by groupNumber");
-            Login.rs=Login.pst.executeQuery();
+            Login.rs = Login.pst.executeQuery();
             storeTable.setModel(DbUtils.resultSetToTableModel(Login.rs));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-        
     }
 
     private void clearTextFields() {
@@ -128,32 +114,26 @@ public class Store extends javax.swing.JFrame {
         quantityTxt.setText("");
         searchTxt.setText("");
     }
-    
-    
-    private void getDataFromSelectedRow()
-    {
-        try{
-        if(storeTable.getSelectedRow()!=-1)
-        {
-//            clearTextFields();
-            gpNumberTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 0).toString());
-            gpNameTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 1).toString());
-            pdtNameTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 2).toString());
-            barcodeTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 3).toString());
-            unitTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 4).toString());
-            priceTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 5).toString());
-            avgPriceTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 6).toString());
-            sellPriceTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 7).toString());
-            quantityTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 8).toString());
-        } 
-        }catch (Exception e)
-        {
+
+    private void getDataFromSelectedRow() {
+        try {
+            if (storeTable.getSelectedRow() != -1) {
+                gpNumberTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 0).toString());
+                gpNameTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 1).toString());
+                pdtNameTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 2).toString());
+                barcodeTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 3).toString());
+                unitTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 4).toString());
+                priceTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 5).toString());
+                avgPriceTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 6).toString());
+                sellPriceTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 7).toString());
+                quantityTxt.setText(storeTable.getValueAt(storeTable.getSelectedRow(), 8).toString());
+            }
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
 
-     private boolean checkEmptyFields() {
-//
+    private boolean checkEmptyFields() {
         if ((!gpNumberTxt.getText().equals("")) && (!gpNameTxt.getText().equals("")) && (!pdtNameTxt.getText().equals(""))
                 && (!barcodeTxt.getText().equals("")) && (!unitTxt.getText().equals(""))
                 && (!priceTxt.getText().equals("")) && (!avgPriceTxt.getText().equals(""))
@@ -300,12 +280,6 @@ public class Store extends javax.swing.JFrame {
     });
 
     jLabel1.setText("Group number");
-
-    searchTxt.addCaretListener(new javax.swing.event.CaretListener() {
-        public void caretUpdate(javax.swing.event.CaretEvent evt) {
-            searchTxtCaretUpdate(evt);
-        }
-    });
 
     jLabel2.setText("Group name");
 
@@ -465,32 +439,27 @@ public class Store extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void gpNameRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gpNameRadioActionPerformed
-        // TODO add your handling code here:
         searchBy = "groupName";
     }//GEN-LAST:event_gpNameRadioActionPerformed
 
     private void pdtRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pdtRadioActionPerformed
-        // TODO add your handling code here:
         searchBy = "productName";
     }//GEN-LAST:event_pdtRadioActionPerformed
 
     private void barcodeRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_barcodeRadioActionPerformed
-        // TODO add your handling code here:
         searchBy = "barcode";
     }//GEN-LAST:event_barcodeRadioActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        // TODO add your handling code here:
         showAll();
+        clearTextFields();
     }//GEN-LAST:event_refreshBtnActionPerformed
 
     private void storeTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_storeTableMouseClicked
-        // TODO add your handling code here:
         getDataFromSelectedRow();
     }//GEN-LAST:event_storeTableMouseClicked
 
     private void newBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newBtnActionPerformed
-        // TODO add your handling code here:
         try {
             Login.pst = Login.dbc.conn.prepareStatement("insert into Store(groupNumber, groupName, productName,"
                     + " barcode, unitOfMeasurment, price, averagePrice, sellingPrice,quantity) values(?,?,?,?,?,?,?,?,?)");
@@ -505,32 +474,21 @@ public class Store extends javax.swing.JFrame {
             Login.pst.setInt(9, Integer.parseInt(quantityTxt.getText()));
             Login.pst.execute();
 
-            
-            //add the new item to storeTable
-            //I used this instead of showAll method to avoid reloading the table
-            
-            //showAll();
-            
-            DefaultTableModel tm = (DefaultTableModel) storeTable.getModel();
-            tm.addRow(new String[]{gpNumberTxt.getText(), gpNameTxt.getText(), pdtNameTxt.getText(),
-                barcodeTxt.getText(),unitTxt.getText(),priceTxt.getText(),avgPriceTxt.getText(),sellPriceTxt.getText() ,quantityTxt.getText()});
-            
+            showAll();
+            clearTextFields();
             JOptionPane.showMessageDialog(null, "New item added successfully");
-            storeTable.getSelectionModel().setSelectionInterval(storeTable.getRowCount()-1, 
-                    storeTable.getRowCount()-1);
-            getDataFromSelectedRow();
+//            storeTable.getSelectionModel().setSelectionInterval(storeTable.getRowCount() - 1,
+//                    storeTable.getRowCount() - 1);
+//            getDataFromSelectedRow();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
-             
         }
     }//GEN-LAST:event_newBtnActionPerformed
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        // TODO add your handling code here:
-        if(storeTable.getSelectedRow()!=-1 && !checkEmptyFields())
-        {
-            try{
-            Login.pst = Login.dbc.conn.prepareStatement("update Store set groupNumber=?, groupName=?, productName=?,"
+        if (storeTable.getSelectedRow() != -1 && !checkEmptyFields()) {
+            try {
+                Login.pst = Login.dbc.conn.prepareStatement("update Store set groupNumber=?, groupName=?, productName=?,"
                         + "barcode=?, unitOfMeasurment=?, price=?, averagePrice=?, sellingPrice=?, quantity=? where barcode=?");
 
                 Login.pst.setInt(1, Integer.parseInt(gpNumberTxt.getText()));
@@ -544,31 +502,15 @@ public class Store extends javax.swing.JFrame {
                 Login.pst.setDouble(9, Double.parseDouble(quantityTxt.getText()));
                 Login.pst.setString(10, storeTable.getValueAt(storeTable.getSelectedRow(), 3).toString());
                 Login.pst.executeUpdate();
-                
-//                showAll();
-                //I used this instead of showAll() method to avoid reloading the whole table again
-                DefaultTableModel tm=(DefaultTableModel)storeTable.getModel();
-                tm.setValueAt(gpNumberTxt.getText(), storeTable.getSelectedRow(), 0);
-                tm.setValueAt(gpNameTxt.getText(), storeTable.getSelectedRow(), 1);
-                tm.setValueAt(pdtNameTxt.getText(), storeTable.getSelectedRow(), 2);
-                tm.setValueAt(barcodeTxt.getText(), storeTable.getSelectedRow(), 3);
-                tm.setValueAt(unitTxt.getText(), storeTable.getSelectedRow(), 4);
-                tm.setValueAt(priceTxt.getText(), storeTable.getSelectedRow(), 5);
-                tm.setValueAt(avgPriceTxt.getText(), storeTable.getSelectedRow(), 6);
-                tm.setValueAt(sellPriceTxt.getText(), storeTable.getSelectedRow(), 7);
-                tm.setValueAt(quantityTxt.getText(), storeTable.getSelectedRow(), 8);
-                
+
+                showAll();
+                clearTextFields();
                 JOptionPane.showMessageDialog(null, "Item updated successfully");
-                
-                
-                
-            } catch(SQLException e)
-            {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "This barcode is already in system\nPlease change it");
                 barcodeTxt.requestFocus();
             }
-        }
-         else if (storeTable.getSelectedRow() == -1) {
+        } else if (storeTable.getSelectedRow() == -1) {
             JOptionPane.showMessageDialog(null, "Please select row from the table first");
         } else {
             JOptionPane.showMessageDialog(null, "One or more fields are empty");
@@ -576,52 +518,27 @@ public class Store extends javax.swing.JFrame {
     }//GEN-LAST:event_saveBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        // TODO add your handling code here:
         int select = JOptionPane.showOptionDialog(null,
                 "Do you want to delete this item?", null,
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.INFORMATION_MESSAGE,
                 null, new String[]{"Delete", "Cancel"}, "default");
-        
+
         if (storeTable.getSelectedRow() != -1 && select == 0) {
             try {
                 Login.pst = Login.dbc.conn.prepareStatement("delete from Store where barcode=?");
                 Login.pst.setString(1, barcodeTxt.getText());
                 Login.pst.executeUpdate();
-                
-                //showAll();
-                
-                //I used this method to avoid reloding the whole table after deleting an item
-                //When deleting a row in storeTable the previous row will be selected
-                
-                int selectedRow=storeTable.getSelectedRow();
-                DefaultTableModel tm = (DefaultTableModel) storeTable.getModel();
-                
-                tm.removeRow(storeTable.getSelectedRow());
-                if(storeTable.getRowCount()>0)
-                {
-                    storeTable.getSelectionModel().setSelectionInterval(selectedRow-1, selectedRow-1);
-                    getDataFromSelectedRow();
-                }
-                else
-                {
-                    //if storeTable is empty and row count=0
-                    clearTextFields();
-                }
-                
 
+                showAll();
+                //clearTextFields();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
-    private void searchTxtCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_searchTxtCaretUpdate
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchTxtCaretUpdate
-
     private void gpNumberRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gpNumberRadioActionPerformed
-        // TODO add your handling code here:
         searchBy = "groupNumber";
     }//GEN-LAST:event_gpNumberRadioActionPerformed
 
@@ -694,5 +611,5 @@ public class Store extends javax.swing.JFrame {
     private javax.swing.JTable storeTable;
     private javax.swing.JTextField unitTxt;
     // End of variables declaration//GEN-END:variables
-  
+
 }
