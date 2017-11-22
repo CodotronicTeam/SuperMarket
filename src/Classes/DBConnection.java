@@ -24,6 +24,8 @@ public class DBConnection {
              Class.forName("com.mysql.jdbc.Driver");      
 //            //create connection
             conn= DriverManager.getConnection("jdbc:mysql://sql8.freemysqlhosting.net:3306/sql8120627?useUnicode=yes&characterEncoding=UTF-8", "sql8120627", "pPUVsMuFy3");
+//            conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/sql8120627?user=root", "root", "password");
+//            jdbc:mysql://localhost:3306/?user=root
             check = true;
             
             

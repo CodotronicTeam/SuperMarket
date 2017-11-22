@@ -104,14 +104,12 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
         Table = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         CashNameTF = new javax.swing.JTextField();
-        ShiftTF = new javax.swing.JTextField();
         DateTF = new javax.swing.JTextField();
         TimeTF = new javax.swing.JTextField();
         TotalTF = new javax.swing.JTextField();
@@ -150,8 +148,6 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
 
         jLabel1.setText("Casher Name: ");
 
-        jLabel2.setText("Shift: ");
-
         jLabel3.setText("Bill Number: ");
 
         jLabel4.setText("Date: ");
@@ -163,8 +159,6 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
         jLabel7.setText("Total: ");
 
         CashNameTF.setEditable(false);
-
-        ShiftTF.setEditable(false);
 
         DateTF.setEditable(false);
 
@@ -240,7 +234,6 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -250,7 +243,6 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
                             .addComponent(PNumTF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                             .addComponent(TimeTF, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(DateTF, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ShiftTF, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(CashNameTF, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(BillNumTF, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(TotalTF))
@@ -273,11 +265,7 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(CashNameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ShiftTF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(68, 68, 68)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(DateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -327,7 +315,6 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
         tm.setRowCount(0);
         BillNumTF.setText("");
         CashNameTF.setText("");
-        ShiftTF.setText("");
         DateTF.setText("");
         TimeTF.setText("");
         PNumTF.setText("");
@@ -489,12 +476,10 @@ public class Sell_Bill_Panel extends javax.swing.JPanel {
     public static javax.swing.JButton NewOrderBtn;
     private javax.swing.JTextField PNumTF;
     public javax.swing.JButton PrintBtn;
-    private javax.swing.JTextField ShiftTF;
     private javax.swing.JTable Table;
     private javax.swing.JTextField TimeTF;
     private javax.swing.JTextField TotalTF;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

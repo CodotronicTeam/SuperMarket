@@ -45,14 +45,12 @@ public class Old_Bills extends javax.swing.JPanel {
         Table = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         CashNameTF = new javax.swing.JTextField();
-        ShiftTF = new javax.swing.JTextField();
         DateTF = new javax.swing.JTextField();
         TimeTF = new javax.swing.JTextField();
         TotalTF = new javax.swing.JTextField();
@@ -84,8 +82,6 @@ public class Old_Bills extends javax.swing.JPanel {
 
         jLabel1.setText("Casher Name: ");
 
-        jLabel2.setText("Shift: ");
-
         jLabel3.setText("Bill Number: ");
 
         jLabel4.setText("Date: ");
@@ -97,8 +93,6 @@ public class Old_Bills extends javax.swing.JPanel {
         jLabel7.setText("Total: ");
 
         CashNameTF.setEditable(false);
-
-        ShiftTF.setEditable(false);
 
         DateTF.setEditable(false);
 
@@ -129,7 +123,6 @@ public class Old_Bills extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -139,7 +132,6 @@ public class Old_Bills extends javax.swing.JPanel {
                     .addComponent(PNumTF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                     .addComponent(TimeTF, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(DateTF, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(ShiftTF, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(CashNameTF, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(BillNumTF, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TotalTF))
@@ -160,11 +152,7 @@ public class Old_Bills extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(CashNameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ShiftTF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(68, 68, 68)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(DateTF, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -284,7 +272,6 @@ public class Old_Bills extends javax.swing.JPanel {
             {
                 BillNumTF.setText(String.valueOf(BillNum));
                 CashNameTF.setText(Login.rs.getString("User_Name"));
-                ShiftTF.setText(Login.rs.getString("Shift"));
                 DateTF.setText(Login.rs.getString("Date"));
                 TimeTF.setText(Login.rs.getString("Time"));
                 total_price+=Login.rs.getDouble("Total_Price");
@@ -324,7 +311,6 @@ public class Old_Bills extends javax.swing.JPanel {
 
                 BillNumTF.setText(String.valueOf(BillNum));
                 CashNameTF.setText(Login.rs.getString("User_Name"));
-                ShiftTF.setText(Login.rs.getString("Shift"));
                 DateTF.setText(Login.rs.getString("Date"));
                 TimeTF.setText(Login.rs.getString("Time"));
                 total_price+=Login.rs.getDouble("Total_Price");
@@ -357,7 +343,6 @@ public class Old_Bills extends javax.swing.JPanel {
                 
                 BillNumTF.setText(String.valueOf(BillNum));
                 CashNameTF.setText(Login.rs.getString("User_Name"));
-                ShiftTF.setText(Login.rs.getString("Shift"));
                 DateTF.setText(Login.rs.getString("Date"));
                 TimeTF.setText(Login.rs.getString("Time"));
                 total_price+=Login.rs.getDouble("Total_Price");
@@ -393,7 +378,6 @@ System.out.println(e.getMessage());
                 BillNum=Login.rs.getInt("Bill_Num");
                 BillNumTF.setText(String.valueOf(BillNum));
                 CashNameTF.setText(Login.rs.getString("User_Name"));
-                ShiftTF.setText(Login.rs.getString("Shift"));
                 DateTF.setText(Login.rs.getString("Date"));
                 TimeTF.setText(Login.rs.getString("Time"));
                 total_price+=Login.rs.getDouble("Total_Price");
@@ -422,12 +406,10 @@ System.out.println(e.getMessage());
     public javax.swing.JTextField PNumTF;
     private javax.swing.JButton PreviousBtn;
     public javax.swing.JButton PrintBtn;
-    public javax.swing.JTextField ShiftTF;
     public javax.swing.JTable Table;
     public javax.swing.JTextField TimeTF;
     public javax.swing.JTextField TotalTF;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

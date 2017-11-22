@@ -105,7 +105,6 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel6" alignment="0" max="32767" attributes="0"/>
@@ -116,7 +115,6 @@
                       <Component id="PNumTF" alignment="0" pref="100" max="32767" attributes="0"/>
                       <Component id="TimeTF" alignment="0" max="32767" attributes="0"/>
                       <Component id="DateTF" alignment="0" max="32767" attributes="0"/>
-                      <Component id="ShiftTF" alignment="0" max="32767" attributes="0"/>
                       <Component id="CashNameTF" alignment="0" max="32767" attributes="0"/>
                       <Component id="BillNumTF" alignment="0" max="32767" attributes="0"/>
                       <Component id="TotalTF" max="32767" attributes="0"/>
@@ -142,12 +140,7 @@
                               <Component id="jLabel1" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="CashNameTF" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jLabel2" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                              <Component id="ShiftTF" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel4" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="DateTF" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
@@ -181,11 +174,6 @@
             <Property name="text" type="java.lang.String" value="Casher Name: "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel2">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Shift: "/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="text" type="java.lang.String" value="Bill Number: "/>
@@ -212,14 +200,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="CashNameTF">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JTextField" name="ShiftTF">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
